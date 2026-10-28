@@ -17,6 +17,8 @@ filesets:
       - lowrisc:dv:dv_fcov_macros
     files:
       - rtl/ibex_cheriot_ex.sv
+      - rtl/aes_sbox_lut.sv
+      - rtl/aes_sbox_compact.sv
       - rtl/aes_v3_fu.sv
       - rtl/ibex_alu.sv
       - rtl/ibex_branch_predict.sv
