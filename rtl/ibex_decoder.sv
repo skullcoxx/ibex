@@ -634,6 +634,18 @@ module ibex_decoder import ibex_cheriot_pkg::*; #(
         endcase
       end
 
+      ///////////////////////////////////////////
+      // V3 scalar AES ISE (custom-0, R-type)  //
+      ///////////////////////////////////////////
+      // funct3 = 000 encs, 001 encsm, 010 decs, 011 decsm
+      // instr[31:30] = bs (byte select); instr[29:25] must be zero
+      OPCODE_AES: begin
+        rf_ren_a_o   = 1'b1;
+        rf_ren_b_o   = 1'b1;
+        rf_we        = 1'b1;
+        illegal_insn = (instr[29:25] != 5'b0_0000) | instr[14];
+      end
+
       /////////////
       // Special //
       /////////////
@@ -1192,6 +1204,33 @@ module ibex_decoder import ibex_cheriot_pkg::*; #(
             div_sel_o      = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
           end
 
+          default: ;
+        endcase
+      end
+
+      // V3 scalar AES ISE (custom-0)
+      OPCODE_AES: begin
+        alu_op_a_mux_sel_o = OP_A_REG_A;
+        alu_op_b_mux_sel_o = OP_B_REG_B;
+
+        // {funct3[1:0], bs}
+        unique case ({instr_alu[13:12], instr_alu[31:30]})
+          {2'd0, 2'd0}: alu_operator_o = ALU_AES_ENCS_0;
+          {2'd0, 2'd1}: alu_operator_o = ALU_AES_ENCS_1;
+          {2'd0, 2'd2}: alu_operator_o = ALU_AES_ENCS_2;
+          {2'd0, 2'd3}: alu_operator_o = ALU_AES_ENCS_3;
+          {2'd1, 2'd0}: alu_operator_o = ALU_AES_ENCSM_0;
+          {2'd1, 2'd1}: alu_operator_o = ALU_AES_ENCSM_1;
+          {2'd1, 2'd2}: alu_operator_o = ALU_AES_ENCSM_2;
+          {2'd1, 2'd3}: alu_operator_o = ALU_AES_ENCSM_3;
+          {2'd2, 2'd0}: alu_operator_o = ALU_AES_DECS_0;
+          {2'd2, 2'd1}: alu_operator_o = ALU_AES_DECS_1;
+          {2'd2, 2'd2}: alu_operator_o = ALU_AES_DECS_2;
+          {2'd2, 2'd3}: alu_operator_o = ALU_AES_DECS_3;
+          {2'd3, 2'd0}: alu_operator_o = ALU_AES_DECSM_0;
+          {2'd3, 2'd1}: alu_operator_o = ALU_AES_DECSM_1;
+          {2'd3, 2'd2}: alu_operator_o = ALU_AES_DECSM_2;
+          {2'd3, 2'd3}: alu_operator_o = ALU_AES_DECSM_3;
           default: ;
         endcase
       end

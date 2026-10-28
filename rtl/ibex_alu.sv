@@ -816,6 +816,51 @@ module ibex_alu #(
     assign clmul_result        = '0;
   end
 
+  ///////////////////////////////////////
+  // V3 scalar AES ISE (custom-0 opcode) //
+  ///////////////////////////////////////
+
+  // result = ROTL32(T(Sbox[rs2.byte[bs]]), 8*bs) ^ rs1, with rs1 = operand a, rs2 = operand b.
+  // See aes_v3_fu.sv. The byte select and the encrypt/decrypt and MixColumn flags are decoded
+  // from the operator.
+  logic [1:0]  aes_bs;
+  logic        aes_fwd, aes_mix;
+  logic [31:0] aes_result;
+
+  always_comb begin
+    aes_bs  = 2'd0;
+    aes_fwd = 1'b1;
+    aes_mix = 1'b0;
+    unique case (operator_i)
+      ALU_AES_ENCS_0: begin aes_bs = 2'd0; aes_fwd = 1'b1; aes_mix = 1'b0; end
+      ALU_AES_ENCS_1: begin aes_bs = 2'd1; aes_fwd = 1'b1; aes_mix = 1'b0; end
+      ALU_AES_ENCS_2: begin aes_bs = 2'd2; aes_fwd = 1'b1; aes_mix = 1'b0; end
+      ALU_AES_ENCS_3: begin aes_bs = 2'd3; aes_fwd = 1'b1; aes_mix = 1'b0; end
+      ALU_AES_ENCSM_0: begin aes_bs = 2'd0; aes_fwd = 1'b1; aes_mix = 1'b1; end
+      ALU_AES_ENCSM_1: begin aes_bs = 2'd1; aes_fwd = 1'b1; aes_mix = 1'b1; end
+      ALU_AES_ENCSM_2: begin aes_bs = 2'd2; aes_fwd = 1'b1; aes_mix = 1'b1; end
+      ALU_AES_ENCSM_3: begin aes_bs = 2'd3; aes_fwd = 1'b1; aes_mix = 1'b1; end
+      ALU_AES_DECS_0: begin aes_bs = 2'd0; aes_fwd = 1'b0; aes_mix = 1'b0; end
+      ALU_AES_DECS_1: begin aes_bs = 2'd1; aes_fwd = 1'b0; aes_mix = 1'b0; end
+      ALU_AES_DECS_2: begin aes_bs = 2'd2; aes_fwd = 1'b0; aes_mix = 1'b0; end
+      ALU_AES_DECS_3: begin aes_bs = 2'd3; aes_fwd = 1'b0; aes_mix = 1'b0; end
+      ALU_AES_DECSM_0: begin aes_bs = 2'd0; aes_fwd = 1'b0; aes_mix = 1'b1; end
+      ALU_AES_DECSM_1: begin aes_bs = 2'd1; aes_fwd = 1'b0; aes_mix = 1'b1; end
+      ALU_AES_DECSM_2: begin aes_bs = 2'd2; aes_fwd = 1'b0; aes_mix = 1'b1; end
+      ALU_AES_DECSM_3: begin aes_bs = 2'd3; aes_fwd = 1'b0; aes_mix = 1'b1; end
+      default: ;
+    endcase
+  end
+
+  aes_v3_fu aes_v3_i (
+    .rs1_i    (operand_a_i),
+    .rs2_i    (operand_b_i),
+    .bs_i     (aes_bs),
+    .fwd_i    (aes_fwd),
+    .mix_i    (aes_mix),
+    .result_o (aes_result)
+  );
+
   ////////////////
   // Result mux //
   ////////////////
@@ -876,6 +921,12 @@ module ibex_alu #(
       // Carry-less Multiply Operations (RV32B)
       ALU_CLMUL, ALU_CLMULR,
       ALU_CLMULH: result_o = clmul_result;
+
+      // V3 scalar AES ISE (custom-0)
+      ALU_AES_ENCS_0, ALU_AES_ENCS_1, ALU_AES_ENCS_2, ALU_AES_ENCS_3,
+      ALU_AES_ENCSM_0, ALU_AES_ENCSM_1, ALU_AES_ENCSM_2, ALU_AES_ENCSM_3,
+      ALU_AES_DECS_0, ALU_AES_DECS_1, ALU_AES_DECS_2, ALU_AES_DECS_3,
+      ALU_AES_DECSM_0, ALU_AES_DECSM_1, ALU_AES_DECSM_2, ALU_AES_DECSM_3: result_o = aes_result;
 
       default: ;
     endcase

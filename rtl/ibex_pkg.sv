@@ -81,7 +81,8 @@ package ibex_pkg;
     OPCODE_JAL      = 7'h6f,
     OPCODE_SYSTEM   = 7'h73,
     OPCODE_CHERI    = 7'h5b,
-    OPCODE_AUICGP   = 7'h7b
+    OPCODE_AUICGP   = 7'h7b,
+    OPCODE_AES      = 7'h0b  // custom-0: V3 scalar AES ISE (Marshall et al., TCHES 2021)
   } opcode_e;
 
 
@@ -168,7 +169,27 @@ package ibex_pkg;
     // RV32B
     ALU_CLMUL,
     ALU_CLMULR,
-    ALU_CLMULH
+    ALU_CLMULH,
+
+    // V3 scalar AES ISE (custom-0). Naming: ALU_AES_<op>_<bs>, op in {ENCS, ENCSM, DECS, DECSM},
+    // bs = byte select (0..3). The byte select is carried in the operator so no extra
+    // signals are needed between decoder and ALU.
+    ALU_AES_ENCS_0,
+    ALU_AES_ENCS_1,
+    ALU_AES_ENCS_2,
+    ALU_AES_ENCS_3,
+    ALU_AES_ENCSM_0,
+    ALU_AES_ENCSM_1,
+    ALU_AES_ENCSM_2,
+    ALU_AES_ENCSM_3,
+    ALU_AES_DECS_0,
+    ALU_AES_DECS_1,
+    ALU_AES_DECS_2,
+    ALU_AES_DECS_3,
+    ALU_AES_DECSM_0,
+    ALU_AES_DECSM_1,
+    ALU_AES_DECSM_2,
+    ALU_AES_DECSM_3
   } alu_op_e;
 
   typedef enum logic [1:0] {
