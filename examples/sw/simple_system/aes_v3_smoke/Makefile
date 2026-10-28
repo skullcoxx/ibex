@@ -2,6 +2,6 @@
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
 
-PROGRAM = aes_ttable_test
+PROGRAM = aes_v3_smoke
 
 include ../common/common.mk
