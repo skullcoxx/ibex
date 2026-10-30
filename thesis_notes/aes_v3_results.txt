@@ -1,0 +1,44 @@
+Experiment: AES V3 on Ibex
+Date: 2026-10-28
+
+Baseline: T-table AES-128
+Enc-KeyExp  iret=724  cycles=1123
+Dec-KeyExp  iret=1481  cycles=2011
+Enc         iret=1026  cycles=1324
+Dec         iret=1022  cycles=1319
+encrypt: PASS
+decrypt: PASS
+
+AES V3: custom AES instructions
+Enc-KeyExp  iret=562  cycles=919
+Dec-KeyExp  iret=723  cycles=963
+Enc         iret=377  cycles=504
+Dec         iret=376  cycles=500
+encrypt: PASS
+decrypt: PASS
+
+Validation:
+- AES V3 results repeated identically across two runs.
+- T-table results were identical on baseline and AES V3 simulators.
+- Cycle counts are from simulation, not physical hardware measurements.
+
+Re-measurement, aligned word loads (v2), -Os, simple system, Verilator 4.210
+Source: aes-v3 8d2d29df, baseline crypto-ext 3125cc88
+T-table:  Enc 924/1149  Dec 919/1144  Enc-KeyExp 652/1004  Dec-KeyExp 1481/1961   (iret/cycles)
+AES V3:   Enc 274/337   Dec 272/337   Enc-KeyExp 490/763   Dec-KeyExp 723/914
+All encrypt/decrypt: PASS. The earlier byte-wise results above are kept for reference (v1).
+Baseline simulator raises an illegal-instruction exception (MCAUSE 2) on aes_v3_test.elf; the ELF contains 76 custom-0 words.
+
+FINAL FPGA RESULTS: Vivado 2026.1, out of context, xc7z020clg484-1, RegFileFPGA, Xilinx BUFGCE clock gate
+Timing met (post-route WNS >= 0):
+  base         14.0 ns  71.4 MHz  LUTs 2860  FFs 956  DSP 1  BRAM 0  WNS +0.399
+  aes_lut      14.5 ns  69.0 MHz  LUTs 3137  FFs 956  DSP 1  BRAM 0  WNS +0.109
+  aes_compact  16.5 ns  60.6 MHz  LUTs 3009  FFs 956  DSP 1  BRAM 0  WNS +0.084
+AES unit alone (hierarchy kept, 13.0 ns): aes_lut 204 LUTs (S-box 72), aes_compact 190 LUTs (S-box 65)
+Block encryption time (simulated cycles x closed clock period):
+  baseline T-table 1149 x 14.0 ns = 16.1 us
+  V3, lookup S-box  337 x 14.5 ns = 4.9 us  (3.3x)
+  V3, compact S-box 337 x 16.5 ns = 5.6 us  (2.9x)
+Notes: out-of-context synthesis; one T-table baseline; -Os; cycles from Verilator simulation.
+Repeated runs of the same configuration give identical results; results vary with the clock period
+(aes_lut fails at 14.0 ns but closes at 14.5 and 15.0 ns). Full table: vivado_summary.csv
