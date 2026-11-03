@@ -1,0 +1,57 @@
+{
+   "creator": "Yosys 0.70+255 (git sha1 72b0054f0, Release, Clang /usr/bin/clang++ 21.1.8)",
+   "invocation": "stat -json ",
+   "modules": {
+      "\\aes_v3_fu": {
+         "num_wires":         636,
+         "num_wire_bits":     730,
+         "num_pub_wires":     7,
+         "num_pub_wire_bits": 101,
+         "num_ports":         6,
+         "num_port_bits":     100,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         661,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 13,
+            "$_AND_": 187,
+            "$_MUX_": 26,
+            "$_NAND_": 219,
+            "$_NOR_": 8,
+            "$_NOT_": 9,
+            "$_ORNOT_": 19,
+            "$_OR_": 20,
+            "$_XNOR_": 130,
+            "$_XOR_": 30
+         }
+      }
+   },
+      "design": {
+         "num_wires":         636,
+         "num_wire_bits":     730,
+         "num_pub_wires":     7,
+         "num_pub_wire_bits": 101,
+         "num_ports":         6,
+         "num_port_bits":     100,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         661,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 13,
+            "$_AND_": 187,
+            "$_MUX_": 26,
+            "$_NAND_": 219,
+            "$_NOR_": 8,
+            "$_NOT_": 9,
+            "$_ORNOT_": 19,
+            "$_OR_": 20,
+            "$_XNOR_": 130,
+            "$_XOR_": 30
+         }
+      }
+}
+

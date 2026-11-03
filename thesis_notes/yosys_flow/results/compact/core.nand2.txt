@@ -1,0 +1,2 @@
+core.stat.json: 33855 NAND2-eq (sequential cells: 1965)
+unweighted cell types: {}

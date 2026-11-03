@@ -1,0 +1,71 @@
+{
+   "creator": "Yosys 0.70+255 (git sha1 72b0054f0, Release, Clang /usr/bin/clang++ 21.1.8)",
+   "invocation": "stat -json ",
+   "modules": {
+      "\\ibex_top": {
+         "num_wires":         17865,
+         "num_wire_bits":     40793,
+         "num_pub_wires":     1535,
+         "num_pub_wire_bits": 24064,
+         "num_ports":         66,
+         "num_port_bits":     928,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         19895,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 755,
+            "$_AND_": 4826,
+            "$_DFFE_PN0P_": 1630,
+            "$_DFFE_PN1P_": 7,
+            "$_DFFE_PP_": 283,
+            "$_DFF_PN0_": 39,
+            "$_DFF_PN1_": 3,
+            "$_DLATCH_N_": 1,
+            "$_MUX_": 1780,
+            "$_NAND_": 6900,
+            "$_NOR_": 689,
+            "$_NOT_": 274,
+            "$_ORNOT_": 428,
+            "$_OR_": 1188,
+            "$_SDFFCE_PN0P_": 2,
+            "$_XNOR_": 259,
+            "$_XOR_": 831
+         }
+      }
+   },
+      "design": {
+         "num_wires":         17865,
+         "num_wire_bits":     40793,
+         "num_pub_wires":     1535,
+         "num_pub_wire_bits": 24064,
+         "num_ports":         66,
+         "num_port_bits":     928,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         19895,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 755,
+            "$_AND_": 4826,
+            "$_DFFE_PN0P_": 1630,
+            "$_DFFE_PN1P_": 7,
+            "$_DFFE_PP_": 283,
+            "$_DFF_PN0_": 39,
+            "$_DFF_PN1_": 3,
+            "$_DLATCH_N_": 1,
+            "$_MUX_": 1780,
+            "$_NAND_": 6900,
+            "$_NOR_": 689,
+            "$_NOT_": 274,
+            "$_ORNOT_": 428,
+            "$_OR_": 1188,
+            "$_SDFFCE_PN0P_": 2,
+            "$_XNOR_": 259,
+            "$_XOR_": 831
+         }
+      }
+}
+
